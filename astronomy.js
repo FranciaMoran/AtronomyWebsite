@@ -4,6 +4,13 @@ $(meteorVideoPopUp)
 function meteorVideoPopUp () {
 	$('#meteor-button').on('click', function(event) {
 		$('#meteor-dialog').html(theMeteorVideo());
+		$('#meteor-dialog').dialog('open');
+		$('#meteor-dialog').parent().css('position','absolute');
+            $('#meteor-dialog').parent().css('top', $(window).height()*.07); 
+            $('#meteor-dialog').parent().css('left', $(window).width()*.20);
+            $('#theVideo').css('height', $(window).height()*.75);
+            document.getElementById("theVideo").play();
+            });
 
 		$('#meteor-dialog').dialog({
             autoOpen: false, 
@@ -12,20 +19,18 @@ function meteorVideoPopUp () {
             modal: false,
             closeText: 'Close',
             dialogClass: 'noTitleStuff', 
-            hide: { effect: "explode", duration: 1000 }
+            hide: { effect: "explode", duration: 1000 },
+             close: function() { 
+                $(document).unbind('click'); 
+                document.getElementById("theVideo").pause();
+            }
             });
-
-		$('#meteor-dialog').dialog('open');
-		$('#meteor-dialog').parent().css('position','absolute');
-            $('#meteor-dialog').parent().css('top', $(window).height()*.07); 
-            $('#meteor-dialog').parent().css('left', $(window).width()*.20);
-})
-}
+	}
 
 function theMeteorVideo () {
-	return	`<div>
-	<p id="video-text">video</p>
-	</div>`;
+	return	`<video id="theVideo" controls>
+	<source src="./meteorVideo.mp4" type="video/mp4">
+	</video>`;
 }
 
 let countDownDate = new Date("Feb 8, 2019 11:05:00").getTime();
